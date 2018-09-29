@@ -8,6 +8,7 @@ NAMESPACE="gitlab"
 IMAGE=${LOCAL_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
 IMAGE_PULL_POLICY=Always
 MANIFEST=./manifest
+SCRIPT=./scripts
 
 all: build push deploy
 
@@ -29,9 +30,11 @@ sed:
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.kubectl.binary.path}}"?"${KUBECTL_BINARY_PATH}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.kubectl.config.path}}"?"${KUBECTL_CONFIG_PATH}"?g
 
-deploy:
+deploy: export OP=create
+deploy: cp sed
 	-@kubectl ${OP} -f ${MANIFEST}/namespace.yaml
 	@kubectl ${OP} -f ${MANIFEST}/service.yaml
+	@kubectl ${OP} -f ${MANIFEST}/controller.yaml
 	@kubectl ${OP} -f ${MANIFEST}/ingress.yaml
 
 clean:
@@ -47,3 +50,6 @@ clean:
 refresh:
 	@kubectl ${OP} -f ${MANIFEST}/configmap.yaml
 	@kubectl ${OP} -f ${MANIFEST}/configmap.yaml
+
+passwd:
+	@${SCRIPT}/get-passwd.sh -n ${NAME} -s ${NAMESPACE}
