@@ -13,8 +13,7 @@ spec:
       containers:
         - name: {{.name}}
           image: {{.image}} 
-          ports:
-            - containerPort: {{.kube-apiserver.insecure.port}}
+          imagePullPolicy: {{.image.pull.policy}} 
           env:
             - name: HOST_IP
               valueFrom:

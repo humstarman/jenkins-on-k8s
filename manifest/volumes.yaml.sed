@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: blueocean-claim
+  name: {{.name}}-claim
   namespace: {{.namespace}}
   annotations:
     volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
