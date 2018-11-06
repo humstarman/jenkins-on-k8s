@@ -5,6 +5,7 @@ KUBECTL_BINARY_PATH="/usr/local/bin/kubectl"
 KUBECTL_CONFIG_PATH="/root/.kube"
 NAME="blueocean"
 NAMESPACE="gitlab"
+URL="gmt.bo.me"
 IMAGE=${LOCAL_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
 IMAGE_PULL_POLICY=Always
 MANIFEST=./manifest
@@ -26,6 +27,7 @@ sed:
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.namespace}}"?"${NAMESPACE}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.port}}"?"${PORT}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.image}}"?"${IMAGE}"?g
+	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.url}}"?"${URL}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.image.pull.policy}}"?"${IMAGE_PULL_POLICY}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.kubectl.binary.path}}"?"${KUBECTL_BINARY_PATH}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.kubectl.config.path}}"?"${KUBECTL_CONFIG_PATH}"?g
@@ -37,6 +39,7 @@ deploy: cp sed
 	@kubectl ${OP} -f ${MANIFEST}/controller.yaml
 	@kubectl ${OP} -f ${MANIFEST}/ingress.yaml
 
+clean: export OP=delete
 clean:
 	-@kubectl ${OP} -f ${MANIFEST}/service.yaml
 	-@kubectl ${OP} -f ${MANIFEST}/ingress.yaml
