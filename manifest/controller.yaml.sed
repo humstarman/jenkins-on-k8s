@@ -23,6 +23,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            - name: JAVA_OPTS
+              value: -Dorg.jenkinsci.plugins.gitclient.Git.timeOut=60
           volumeMounts:
             - name: host-time
               mountPath: /etc/localtime

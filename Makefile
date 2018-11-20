@@ -1,11 +1,11 @@
-LOCAL_REGISTRY="10.254.0.50:5000"
+LOCAL_REGISTRY="gmt.reg.me/test"
 IMAGE_NAME="blueocean"
 IMAGE_TAG="latest"
 KUBECTL_BINARY_PATH="/usr/local/bin/kubectl"
 KUBECTL_CONFIG_PATH="/root/.kube"
 NAME="blueocean"
 NAMESPACE="gitlab"
-URL="gmt.bo.me"
+URL="gmt.je.me"
 IMAGE=${LOCAL_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
 IMAGE_PULL_POLICY=Always
 MANIFEST=./manifest
@@ -43,7 +43,6 @@ clean: export OP=delete
 clean:
 	-@kubectl ${OP} -f ${MANIFEST}/service.yaml
 	-@kubectl ${OP} -f ${MANIFEST}/ingress.yaml
-	-@kubectl ${OP} -f ${MANIFEST}/configmap.yaml
 	-@kubectl ${OP} -f ${MANIFEST}/controller.yaml
 	-@rm -f ${MANIFEST}/service.yaml
 	-@rm -f ${MANIFEST}/ingress.yaml
