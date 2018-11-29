@@ -55,3 +55,4 @@ refresh:
 
 passwd:
 	@${SCRIPT}/get-passwd.sh -n ${NAME} -s ${NAMESPACE}
+
