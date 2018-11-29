@@ -4,6 +4,7 @@ metadata:
   namespace: {{.namespace}} 
   labels:
     proxy: {{.name}}
+    {{.labels.key}}: {{.labels.value}}
   name: {{.name}}
 spec:
   type: ClusterIP

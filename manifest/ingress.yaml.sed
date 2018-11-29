@@ -1,8 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: my-{{.name}}-ingress
+  name: {{.name}}-ingress
   namespace: {{.namespace}}
+  labels:
+    {{.labels.key}}: {{.labels.value}}
 spec:
   rules:
   - host: {{.url}} 
